@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+  <style>
+    body {
+      background-color: black;
+    }
+
+  </style>
+</head>
+<!-- const package_path = window.location.pathname.substring(0, window.location.pathname.lastIndexOf('/'));
+const dojoConfig = {
+  async: true,
+  packages: [{
+    name: 'geotour',
+    location: package_path + '/assets'
+  }]
+};
+const options = { dojoConfig: dojoConfig }; -->
+<body>
+  <script>
+    const totalPaths = 5;
+    let legNumber = 1; // first leg
+    let legHop = 0;
+
+    function getTotalHops(id) {
+      const ptC = [4, 5, 2, 1, 9]
+      return ptC[id - 1];
+    }
+
+    function animateAll() {
+      legHop++;
+      console.log('master leg', legNumber, legHop);
+
+      if (legNumber < totalPaths) {
+        if (legHop >= getTotalHops(legNumber) && legNumber <= totalPaths) {
+          legNumber++;
+          legHop = 0;
+          setTimeout(animateAll, 1000);
+        } else if (legHop >= getTotalHops(legNumber) && legNumber > totalPaths) {
+          return;
+        } else {
+          setTimeout(animateAll, 1000);
+        }
+      } else if (legHop < getTotalHops(legNumber)) {
+        setTimeout(animateAll, 1000);
+      }
+    }
+    animateAll();
+
+  </script>
+</body>
+
+</html>

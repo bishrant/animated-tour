@@ -14,5 +14,8 @@
   "include": [
     "**/*.spec.ts",
     "**/*.d.ts"
+  ],
+  "types": [
+    "arcgis-js-api"
   ]
 }
