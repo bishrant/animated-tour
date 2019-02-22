@@ -1,2 +1,10 @@
 <!-- Here's the DIV that we inject the map into -->
 <div #mapViewNode class='esri-view'></div>
+<div style="    position: absolute;
+right: 0;
+top: 0;">
+    <button (click)="prepareForAnimation(_polyline)" >Start Animation</button>
+    <button (click)="stopAnimation()" >Stop Animation</button>
+</div>
+
+
