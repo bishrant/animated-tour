@@ -2,6 +2,8 @@ import { Component, OnInit, ViewChild, ElementRef, Input, Output, EventEmitter }
 import { loadModules } from 'esri-loader';
 import esri = __esri; // Esri TypeScript Types
 import * as vars from './variables';
+import { Http } from '@angular/http';
+import { map } from 'rxjs/operators';
 
 @Component({
   selector: 'app-esrimap',
@@ -12,7 +14,7 @@ export class EsrimapComponent implements OnInit {
   @ViewChild('mapViewNode') private mapViewEl: ElementRef;
   private _zoom = 15;
   private _center: Array<number> = [-95.118420276135581, 31.072854453305986];
-  private _basemap = 'streets';
+  private _basemap = 'hybrid';
   mapView: __esri.MapView;
   lineGraphic: __esri.Graphic;
   ptGraphic: __esri.Graphic;
@@ -34,15 +36,16 @@ export class EsrimapComponent implements OnInit {
   ptLayer: __esri.GraphicsLayer;
   lineLayer: __esri.GraphicsLayer;
   labelsLayer: __esri.GraphicsLayer;
+  @Input() masterId;
   map: __esri.Map;
-  constructor() { }
+  constructor(private http: Http) { }
 
   animateRoute = () => {
     console.log(this.lineGraphic);
   }
 
   public addLabel(legNumber, c) {
-    const newLabel = this.createLabels(vars.labels[legNumber], c.geometry);
+    const newLabel = this.createLabels('Stop number: ' + legNumber + 1, c.geometry);
      this.labelsLayer.add(newLabel);
      this.labelsLayer.add(this.createGraphic(vars.stopSymbol, c.geometry));
   }
@@ -59,7 +62,23 @@ export class EsrimapComponent implements OnInit {
     return this.allPtArray[id].length;
   }
 
+  public requestData() {
+    // tslint:disable-next-line:max-line-length
+    this.http.get('http://tfsgis-dfe02.tfs.tamu.edu/arcgis/rest/services/TxScenicViews/ScenicLocations/FeatureServer/3/query?where=masterId+%3D+' + this.masterId + '&f=geojson&returnGeometry=true')
+    .pipe(map(response => response.json())).subscribe(d => {
+      console.log(d.features[0].geometry.coordinates);
+      console.log(d.features[0].geometry.coordinates.flat());
+      const _pathArray = [];
+      d.features.forEach(_f => {
+        _pathArray.push(_f.geometry.coordinates);
+      });
+      this._polyline.paths = _pathArray;
+      this.prepareForAnimation(this._polyline);
+    });
+  }
+
   public prepareForAnimation(polyline) {
+
     // loop for the all paths inside that polyline
     for (let pthId = 0; pthId < polyline.paths.length; pthId++) {
       // get total hops per individual path sections
