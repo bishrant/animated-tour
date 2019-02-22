@@ -105,7 +105,7 @@ lineLayer.add(lineGraphic);
    const totalPaths = vars.line1.length;
    let legNumber = 1; // first leg
    let legHop = 0;
-   const distanceLat = 0.005;
+   const distanceLat = 0.0005;
    const allPtGraphics = [];
    const allPtArray = [];
 
@@ -165,24 +165,24 @@ lineLayer.add(lineGraphic);
     }
 
    function getTotalHopsMaster(id) {
-        const count = countPointsPerLine(vars.line1[id ], 1000);
+        const count = countPointsPerLine(vars.line1[id ], 10);
       return count;
     }
 
     function get(n, h) {
-      return vars.getPointAlongLine(line, 0.0005 * (legHop), n);
+      return vars.getPointAlongLine(line, 0.00005 * (legHop), n);
     }
 
-    function an() {
-      console.log('add geom');
-      console.log(allPtGraphics[legNumber - 1][legHop ]);
-      labelsLayer.add(allPtGraphics[legNumber - 1][legHop ]);
-    }
+function addLabel(legNumber) {
+  const newLabel = '';
+//  labelsLayer.add(null);
+}
+
     function animateAll() {
       legHop++;
       // console.log('master leg', legNumber, legHop);
       // animation logic
-     // ptLayer.removeAll();
+      ptLayer.removeAll();
       // console.log(allPtArray[legNumber - 1]);
       const newpaths = [allPtArray[legNumber - 1].slice(legHop - 1, legHop + 1)];
       // console.log(newpaths);
@@ -197,22 +197,24 @@ lineLayer.add(lineGraphic);
       lineLayer.add(lineGraphic1);
       map.add(lineLayer);
       console.log(allPtGraphics[legNumber - 1][legHop - 1], legHop, getTotalHops(legNumber - 1), legNumber);
-     console.log(allPtGraphics[0]);
-     an();
-   // window.requestAnimationFrame(an);
+      ptLayer.add(allPtGraphics[legNumber - 1][legHop - 1]);
+    //  console.log(allPtGraphics[0]);
       /* animation logic */
       if (legNumber < totalPaths) {
-        if (legHop > getTotalHops(legNumber - 1) && legNumber <= totalPaths) {
+        if (legHop > (getTotalHops(legNumber - 1) - 1 ) && legNumber <= totalPaths) {
           legNumber++;
+          console.log('leg number increased');
           legHop = 0;
-          setTimeout(animateAll, 300);
+          ptLayer.removeAll();
+          addLabel(legNumber - 1);
+          setTimeout(animateAll, 3);
         } else if (legHop >= getTotalHops(legNumber - 1) && legNumber > totalPaths) {
           return;
         } else {
-          setTimeout(animateAll, 300);
+          setTimeout(animateAll, 3);
         }
       } else if (legHop < getTotalHops(legNumber - 1)) {
-        setTimeout(animateAll, 300);
+        setTimeout(animateAll, 3);
       }
     }
     const _polyline = new Polyline({
@@ -220,7 +222,6 @@ lineLayer.add(lineGraphic);
       spatialReference: { wkid: 4326 }
     });
     prepareForAnimation(_polyline);
-    
 
     function countPointsPerLine(polylinePath, distance) {
       const pl = new Polyline({
@@ -230,7 +231,6 @@ lineLayer.add(lineGraphic);
       console.log(geometryEngine.geodesicLength(pl, 'meters'), distance);
       return Math.round(geometryEngine.geodesicLength(pl, 'meters') / distance);
     }
-    
     return mapView;
   }
 
