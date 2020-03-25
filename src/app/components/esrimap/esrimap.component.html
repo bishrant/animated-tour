@@ -4,7 +4,7 @@
 right: 0;
 top: 0;">
     <button (click)="requestData()" >Start Animation</button>
-    <button (click)="stopAnimation()" >Stop Animation</button>
+    <button (click)="replayAnimation()" [hidden]= "!isReplayVisible">Replay Animation</button>
 </div>
 
 

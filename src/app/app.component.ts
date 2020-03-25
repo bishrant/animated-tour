@@ -7,4 +7,5 @@ import { Component } from '@angular/core';
 })
 export class AppComponent {
   title = 'geotour';
+  public pts1: any[] = [1, 2, 3, 4, 5, 6];
 }

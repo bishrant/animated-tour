@@ -13,25 +13,24 @@ export const lineGraphicSymbol = {
     width: 1
 };
 export const markerSymbol = {
-    // type: 'simple-marker', // autocasts as new SimpleMarkerSymbol()
-    // color: [226, 119, 40],
-    // style: 'triangle',
-    // outline: { // autocasts as new SimpleLineSymbol()
-    //     color: [255, 255, 255],
-    //     width: 1
-    // },
-    // angle: 50
     type: 'picture-marker',  // autocasts as new PictureMarkerSymbol()
-  url: 'assets/car2.png',
-  width: '44px',
-  height: '44px'
+    url: 'assets/car2.png',
+    width: '44px',
+    height: '44px'
 };
 
 export const stopSymbol = {
     type: 'picture-marker',  // autocasts as new PictureMarkerSymbol()
-  url: 'assets/marker.png',
-  width: '44px',
-  height: '44px'
+    url: 'assets/marker.png',
+    width: '44px',
+    height: '44px'
+};
+
+export const circleSymbol = {
+    type: 'simple-marker',
+    color: [180, 119, 40],
+    style: 'circle',
+    width: 30
 };
 
 export const highLightedLineSymbol = {
