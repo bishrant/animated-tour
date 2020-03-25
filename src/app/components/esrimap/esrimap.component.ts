@@ -1,9 +1,9 @@
 import { Component, OnInit, ViewChild, ElementRef, Input, Output, EventEmitter } from '@angular/core';
 import { loadModules } from 'esri-loader';
-import esri = __esri; // Esri TypeScript Types
+// import esri = __esri; // Esri TypeScript Types
 import * as vars from './variables';
-import { Http } from '@angular/http';
 import { map } from 'rxjs/operators';
+import { HttpClient } from '@angular/common/http';
 
 @Component({
   selector: 'app-esrimap',
@@ -15,9 +15,9 @@ export class EsrimapComponent implements OnInit {
   private _zoom = 15;
   private _center: Array<number> = [-95.118420276135581, 31.072854453305986];
   private _basemap = 'hybrid';
-  public mapView: __esri.MapView;
-  public lineGraphic: __esri.Graphic;
-  public ptGraphic: __esri.Graphic;
+  public mapView: any;
+  public lineGraphic: any;
+  public ptGraphic: any;
   public createGraphic;
   public createLabels;
   public countPointsPerLine;
@@ -31,15 +31,15 @@ export class EsrimapComponent implements OnInit {
   private allPtArray = [];
   private totalPaths = this.allPtArray.length;
   public setTimeOutAnimation;
-  public routeLine: __esri.Polyline;
-  public lineLayer: __esri.GraphicsLayer;
-  public labelsLayer: __esri.GraphicsLayer;
-  public map: __esri.Map;
+  public routeLine: any;
+  public lineLayer: any;
+  public labelsLayer: any;
+  public map: any;
   public isReplayVisible = false;
   @Output() closed = new EventEmitter<boolean>();
   @Input() masterId;
 
-  constructor(private http: Http) { }
+  constructor(private http: HttpClient) { }
 
   public closedAnimation() {
     this.closed.emit(true);
@@ -61,7 +61,7 @@ export class EsrimapComponent implements OnInit {
   public requestData() {
     // tslint:disable-next-line:max-line-length
     this.http.get('http://tfsgis-dfe02.tfs.tamu.edu/arcgis/rest/services/TxScenicViews/ScenicLocations/FeatureServer/3/query?where=objectid+%3D+' + this.masterId + '&f=geojson&returnGeometry=true&outfields=*')
-    .pipe(map(response => response.json())).subscribe(d => {
+    .pipe(map((response:any) => response.json())).subscribe(d => {
       const _pathArray = [];
       d.features.forEach(_f => {
         _pathArray.push(_f.geometry.coordinates);
@@ -201,7 +201,7 @@ export class EsrimapComponent implements OnInit {
     ]);
 
     this.map = new EsriMap({ basemap: this._basemap });
-    const mapViewProperties: esri.MapViewProperties = {
+    const mapViewProperties: any = {
       container: this.mapViewEl.nativeElement,
       center: this._center,
       zoom: this._zoom,
