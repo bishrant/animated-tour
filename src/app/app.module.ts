@@ -4,7 +4,6 @@ import { HttpClientModule } from '@angular/common/http';
 
 import { AppComponent } from './app.component';
 import { EsrimapComponent } from './components/esrimap/esrimap.component';
-import { HttpModule } from '@angular/http';
 import { PointanimationComponent } from './pointanimation/pointanimation.component';
 
 @NgModule({
@@ -14,7 +13,7 @@ import { PointanimationComponent } from './pointanimation/pointanimation.compone
     PointanimationComponent
   ],
   imports: [
-    HttpModule,
+    HttpClientModule,
     BrowserModule
   ],
   providers: [],

@@ -1,9 +1,7 @@
 import { Component, OnInit, ViewChild, ElementRef, Input, Output, EventEmitter } from '@angular/core';
 import { loadModules } from 'esri-loader';
-import esri = __esri; // Esri TypeScript Types
+// import esri = __esri; // Esri TypeScript Types
 import * as vars from '../components/esrimap/variables';
-import { Http } from '@angular/http';
-import { map } from 'rxjs/operators';
 
 @Component({
   selector: 'app-pointanimation',
@@ -16,14 +14,14 @@ export class PointanimationComponent implements OnInit {
   private _zoom = 11;
   private _center: Array<number> = [-95.118420276135581, 31.072854453305986];
   private _basemap = 'hybrid';
-  public mapView: __esri.MapView;
-  public map: __esri.Map;
+  public mapView: any;//__esri.MapView;
+  public map: any; //__esri.Map;
   public createGraphic;
 
   @Input() masterId;
   public ptArray = vars.line1;
 
-  constructor(private http: Http) { }
+  constructor() { }
   async initializeMap() {
     const [EsriMap, EsriMapView, GraphicsLayer, Graphic, TextSymbol, Polyline, geometryEngine] = await loadModules([
       'esri/Map', 'esri/views/MapView', 'esri/layers/GraphicsLayer', 'esri/Graphic', 'esri/symbols/TextSymbol',
@@ -32,7 +30,7 @@ export class PointanimationComponent implements OnInit {
     ]);
 
     this.map = new EsriMap({ basemap: this._basemap });
-    const mapViewProperties: esri.MapViewProperties = {
+    const mapViewProperties: any = {
       container: this.mapViewEl.nativeElement,
       center: this._center,
       zoom: this._zoom,

@@ -15,6 +15,7 @@
     "typeRoots": [
       "node_modules/@types"
     ],
+    "types": ["arcgis-js-api"],
     "lib": [
       "es2017",
       "dom"
