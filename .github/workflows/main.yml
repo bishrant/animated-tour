@@ -1,19 +1,12 @@
-# This is a basic workflow to help you get started with Actions
-
-name: CI
-
+name: Send Message on Teams
 on: push
 jobs:
     deployment:
         runs-on: ubuntu-latest
         steps:
-        - name: Dump git info
-          env:
-              GITHUB_CONTEXT: ${{ toJson(github) }}
-          run: echo "$GITHUB_CONTEXT"
-        - name: Deploy Stage
+        - name: Post commit message to Teams channel
           uses: satak/webrequest-action@master
           with:
               url: ${{ secrets.TEAMS_WEBHOOK }}
               method: POST
-              payload: '{"text": "New Commit on master of https://github.com/bishrant/MapMyProperty by ${{ github.actor }}"}'
+              payload: '{"text": "New Commit on master by ${{ github.actor }}"} of https://github.com/bishrant/MapMyProperty. Make sure you download the latest version.'
