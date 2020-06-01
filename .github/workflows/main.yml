@@ -12,4 +12,4 @@ jobs:
           with:
             url: 'https://outlook.office.com/webhook/7b9e7bbe-a1d5-4bf0-ab34-fb795559ff72@2c2bb68d-f234-4baa-a640-ede7b35d9620/IncomingWebhook/6569801162bb44c69301e77fb05b3308/0fb58a4f-6a99-4de4-b47c-1fe4dc2d71d2'
             method: 'GET'
-            text: 'hey'
+            data: '{\"text\": \"Hello git\"}'
